@@ -1,0 +1,40 @@
+import { Body, Controller, Get, HttpException, Inject, Post, Query, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { transformAndValidate } from 'class-transformer-validator';
+import { IsDefined } from 'class-validator';
+import { JWTGuard } from 'src/authentication/guards/jwt.guard';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { EntityManager } from 'typeorm';
+import { MODULE_NAME } from '../constants';
+
+const topic = "{{topic}}"
+const logger = giveMeClassLogger(topic);
+
+export class {{ properCase topic}}CommandDTO {
+    @IsDefined()
+    userId: number;
+}
+
+@ApiTags(MODULE_NAME)
+@ApiBearerAuth()
+@UseGuards(JWTGuard)
+@Controller(`api/${MODULE_NAME}/commands`)
+export class {{ properCase topic}}Command {
+    constructor(
+        @InjectEntityManager() private readonly manager: EntityManager
+    ) { }
+
+    async execute(dto: {{ properCase topic}}CommandDTO): Promise<any> {
+        logger.debug(`command execution started`)
+        logger.silly(`command dto`, dto)
+        dto = await transformAndValidate({{ properCase topic}}CommandDTO, dto)
+        throw new Error('Command Not Implemented')
+        logger.debug(`command execution completed`)
+    }
+
+    @Post(topic)
+    async httpHandler(@Body() body: {{ properCase topic}}CommandDTO): Promise<any> {
+        return this.execute(body)
+    }
+}

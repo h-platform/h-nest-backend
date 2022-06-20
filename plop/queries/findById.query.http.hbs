@@ -1,0 +1,41 @@
+import { Body, Controller, Get, HttpException, HttpService, Inject, Post, Query } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiProperty } from '@nestjs/swagger';
+import { transformAndValidate } from 'class-transformer-validator';
+import { IsDefined, IsOptional } from 'class-validator';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { CommandResponse } from 'src/cqm/lib/command-response';
+import { EntityManager } from 'typeorm';
+import { MODULE_NAME } from '../constants';
+import { {{properCase entity}} } from '../entities/{{entity}}.entity';
+
+const topic = "{{entity}}.{{topic}}"
+const logger = giveMeClassLogger(topic);
+
+export class {{properCase entity}}{{ properCase topic}}QueryDTO {
+    @ApiProperty()
+    @IsDefined()
+    id: number;
+}
+
+@ApiTags(MODULE_NAME)
+@ApiBearerAuth()
+@Controller(`api/${MODULE_NAME}/commands`)
+export class {{properCase entity}}{{ properCase topic}}Query {
+    constructor(
+        @InjectEntityManager() private manager: EntityManager,
+    ) { }
+
+    async execute(dto: {{properCase entity}}{{ properCase topic}}QueryDTO): Promise<any> {
+        logger.debug(`query execution started`)
+        logger.silly(`query dto`, dto)
+        dto = await transformAndValidate({{properCase entity}}{{ properCase topic}}QueryDTO, dto)
+        const rows = await this.manager.findOne({{ properCase entity }}, dto.id);
+        return CommandResponse.success('ok', 'SUCCESS', {rows})
+    }
+
+    @Post(topic)
+    async httpHandler(@Body() body: {{properCase entity}}{{ properCase topic}}QueryDTO): Promise<any> {
+        return this.execute(body)
+    }
+}

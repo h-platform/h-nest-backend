@@ -1,0 +1,80 @@
+import { Body, Controller, Get, HttpException, HttpService, Inject, Post, Query } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiProperty } from '@nestjs/swagger';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { transformAndValidate } from 'class-transformer-validator';
+import { IsDefined, IsEmail, IsString } from 'class-validator';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandResponse } from 'src/cqm/lib/command-response';
+import { EntityManager } from 'typeorm';
+import { OTP } from '../entities/otp.entity';
+import { User } from '../entities/user.entity';
+import { UserRegisterSendOtpCommandDTO } from './user.registerByEmail.sendOTP';
+
+const topic = "user.registerByEmail.consumeOTP"
+const logger = giveMeClassLogger(topic);
+
+export class UserRegisterConsumeOtpCommandDTO {
+    @ApiProperty()
+    @IsDefined()
+    @IsEmail()
+    email: string;
+
+    @ApiProperty()
+    @IsDefined()
+    @IsString()
+    token: string;
+}
+
+@ApiTags('umm')
+@ApiBearerAuth()
+@Controller('api/umm/commands')
+export class UserRegisterByEmailConsumeOtpCommand {
+    constructor(
+        @InjectEntityManager() private readonly manager: EntityManager
+    ) { }
+
+    async execute(dto: UserRegisterConsumeOtpCommandDTO): Promise<any> {
+        logger.debug(`command execution started`)
+        logger.silly(`command dto`, dto)
+        dto = await transformAndValidate(UserRegisterConsumeOtpCommandDTO, dto)
+        const otp = await this.manager.findOne(OTP, { where: { actionType: 'REGISTER_BY_EMAIL', email: dto.email, otpToken: dto.token }, order: { createdAt: 'DESC' } });
+        if (!otp) {
+            throw new CommandError('OTP not found', 'NOT_FOUND')
+        }
+        if (otp.isConsumed) {
+            throw new CommandError('OTP consumed', 'CONSUMED')
+        }
+
+        return this.manager.transaction(async (tm) => {
+            // insert user
+            const registerByEmailDTO = otp.actionPayload as UserRegisterSendOtpCommandDTO;
+            await tm.save(User, {
+                displayName: registerByEmailDTO.displayName,
+                legalName: registerByEmailDTO.displayName,
+                userImage: null,
+                username: registerByEmailDTO.username,
+                mobileNumber: registerByEmailDTO.contactNo,
+                email: registerByEmailDTO.email,
+                password: registerByEmailDTO.password,
+                country: registerByEmailDTO.country,
+                city: registerByEmailDTO.city,
+                address: registerByEmailDTO.address,
+                roles: [],
+                badges: [],
+            })
+            // update otp
+            otp.isConsumed = true;
+            otp.consumedAt = new Date();
+            await tm.save(otp);
+            // response
+            return CommandResponse.success('User registeration successfull', 'SUCCESS');
+        })
+
+    }
+
+    @Post(topic)
+    async httpHandler(@Body() body: UserRegisterConsumeOtpCommandDTO): Promise<any> {
+        return this.execute(body)
+    }
+}

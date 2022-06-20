@@ -1,0 +1,38 @@
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveAggregate
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODYzNjQxMSwiZXhwIjoxNjA4NzIyODExfQ.EYvcAbirMH4d6nTVJ0bdhpG8rULGRiO7NEV0avmZLvM
+
+{
+    "aggregateType": "contact.employee",
+    "state": {
+        "contactName": "علي يوسف",
+        "contactNo": "",
+        "stationId": "edbfa4d0-eaab-4068-93d7-908c6684f3bc"
+    }
+}
+
+###
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveAggregate
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODYzNjQxMSwiZXhwIjoxNjA4NzIyODExfQ.EYvcAbirMH4d6nTVJ0bdhpG8rULGRiO7NEV0avmZLvM
+
+{
+    "aggregateType": "item",
+    "state": {
+        "itemName": "بنزين",
+        "itemPrice": 121,
+    }
+}
+
+###
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveAggregate
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwOTM3NjcwNSwiZXhwIjoxNjA5NDYzMTA1fQ.0jTo2k5viH6pfEqusHLXRvhrly0XsNgx3qauNfgtSIA
+
+{
+    "aggregateType": "item",
+    "state": {
+        "itemName": "جازاويل",
+        "itemPrice": 111
+    }
+}

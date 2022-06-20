@@ -1,0 +1,100 @@
+import { Body, Controller, Get, HttpException, HttpService, Inject, Post, Query } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiProperty } from '@nestjs/swagger';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { transformAndValidate } from 'class-transformer-validator';
+import { IsDefined, IsEmail, IsString } from 'class-validator';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandResponse } from 'src/cqm/lib/command-response';
+import { EntityManager } from 'typeorm';
+import { OTP } from '../entities/otp.entity';
+import { User } from '../entities/user.entity';
+import * as bcrypt from 'bcrypt';
+var randomNumber = require('random-number');
+
+const topic = "user.registerByEmail.sendOTP"
+const logger = giveMeClassLogger(topic);
+
+export class UserRegisterSendOtpCommandDTO {
+    @IsDefined()
+    @IsString()
+    @ApiProperty()
+    displayName: string;
+
+    @IsDefined()
+    @IsString()
+    @IsEmail()
+    @ApiProperty()
+    username: string;
+
+    @IsDefined()
+    @IsString()
+    @IsEmail()
+    @ApiProperty()
+    email: string;
+
+    @IsDefined()
+    @IsString()
+    @ApiProperty()
+    contactNo: string;
+
+    @IsDefined()
+    @IsString()
+    @ApiProperty()
+    password: string;
+
+    @IsDefined()
+    @IsString()
+    @ApiProperty()
+    country: string;
+
+    @IsDefined()
+    @IsString()
+    @ApiProperty()
+    city: string;
+
+    @IsDefined()
+    @IsString()
+    @ApiProperty()
+    address: string;
+}
+
+@ApiTags('umm')
+@ApiBearerAuth()
+@Controller('api/umm/commands')
+export class UserRegisterByEmailSendOtpCommand {
+    constructor(
+        @InjectEntityManager() private readonly manager: EntityManager
+    ) { }
+
+    async execute(dto: UserRegisterSendOtpCommandDTO): Promise<any> {
+        logger.debug(`command execution started`)
+        logger.silly(`command dto`, dto)
+        dto = await transformAndValidate(UserRegisterSendOtpCommandDTO, dto)
+        // check email not exists
+        const foundUser = await this.manager.findOne(User, { where: { email: dto.email } });
+        if (foundUser) {
+            throw new CommandError('Email is already registered', 'EMAIL_USED')
+        }
+        // save otp
+        const hashedPassword = await bcrypt.hash(dto.password, 10);
+        dto.password = hashedPassword;
+        await this.manager.save(OTP, {
+            actionType: 'REGISTER_BY_EMAIL',
+            email: dto.email,
+            token: randomNumber({ min: 100000, max: 999999, integer: true }),
+            isConsumed: false,
+            consumedAt: null,
+            payload: dto,
+        })
+        // send email
+        // TODO: write code to send email to user
+        // send response
+        return CommandResponse.success('Activation Email send successfully', 'OK')
+    }
+
+    @Post(topic)
+    async httpHandler(@Body() body: UserRegisterSendOtpCommandDTO): Promise<any> {
+        return this.execute(body)
+    }
+}

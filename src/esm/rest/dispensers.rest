@@ -1,0 +1,54 @@
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveAggregate
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODYzNjQxMSwiZXhwIjoxNjA4NzIyODExfQ.EYvcAbirMH4d6nTVJ0bdhpG8rULGRiO7NEV0avmZLvM
+
+{
+    "aggregateType": "dispenser",
+    "state": {
+        "dispenserNo": "AMR/6A",
+        "dispenserCode": "AMR/6A",
+        "stationId": "edbfa4d0-eaab-4068-93d7-908c6684f3bc",
+        "material": "بنزين",
+        "status": "standby",
+        "worker": ""
+    }
+}
+
+###
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveAggregate
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODUyNDY5OSwiZXhwIjoxNjA4NjExMDk5fQ.3yYAfvWm7r17JkVQR5cDa11jwIDzJun0uMBuHnTEqeI
+
+{
+    "aggregateType": "dispenser",
+    "id": "07181b19-e51f-4b76-ac56-ff1852903d15",
+    "state": {
+        "dispenserNo": "SAFA/12",
+        "dispenserCode": "Safa/12",
+        "status": "",
+        "stationId": "edbfa4d0-eaab-4068-93d7-908c6684f3bc",
+        "material": "بنزين",
+        "status": "working",
+        "worker": "علي عبدالله"
+    }
+}
+
+###
+POST http://127.0.0.1:3000/api/eventStore/queries/aggregate.findAll
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODUyNDY5OSwiZXhwIjoxNjA4NjExMDk5fQ.3yYAfvWm7r17JkVQR5cDa11jwIDzJun0uMBuHnTEqeI
+
+{
+    "aggregateType": "dispenser"
+}
+
+
+
+###
+POST http://127.0.0.1:3000/api/eventStore/queries/aggregate.findOne
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODUyNDY5OSwiZXhwIjoxNjA4NjExMDk5fQ.3yYAfvWm7r17JkVQR5cDa11jwIDzJun0uMBuHnTEqeI
+
+{
+    "id" : "b97456ed-6771-4d28-9f05-92051749ac58"
+}

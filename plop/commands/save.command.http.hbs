@@ -1,0 +1,42 @@
+import { Body, Controller, Get, HttpException, HttpService, Inject, Post, Query } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiProperty } from '@nestjs/swagger';
+import { transformAndValidate } from 'class-transformer-validator';
+import { IsDefined, IsOptional } from 'class-validator';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { CommandResponse } from 'src/cqm/lib/command-response';
+import { EntityManager } from 'typeorm';
+import { MODULE_NAME } from '../constants';
+import { {{properCase entity}} } from '../entities/{{entity}}.entity';
+
+const topic = "{{entity}}.save"
+const logger = giveMeClassLogger(topic);
+
+export class {{ properCase entity}}SaveCommandDTO {
+    @IsOptional()
+    id: number;
+}
+
+@ApiTags(MODULE_NAME)
+@ApiBearerAuth()
+@Controller(`api/${MODULE_NAME}/commands`)
+export class {{ properCase entity}}SaveCommand {
+    constructor(
+        @InjectEntityManager() private manager: EntityManager,
+    ) { }
+
+    async execute(dto: {{ properCase entity}}SaveCommandDTO): Promise<any> {
+        logger.debug(`command execution started`)
+        logger.silly(`command dto`, dto)
+        dto = await transformAndValidate({{ properCase entity}}SaveCommandDTO, dto)
+        const isNew = !dto.id;
+        const record = isNew ? this.manager.create({{ properCase entity }}) : await this.manager.findOne({{ properCase entity }}, dto.id);
+        const savedRecord = await this.manager.save(record);
+        return CommandResponse.success('ok', 'SUCCESS', {savedRecord})
+    }
+
+    @Post(topic)
+    async httpHandler(@Body() body: {{ properCase entity}}SaveCommandDTO): Promise<any> {
+        return this.execute(body)
+    }
+}

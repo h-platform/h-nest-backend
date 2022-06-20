@@ -1,0 +1,83 @@
+import { Body, Controller, Get, HttpException, HttpService, Inject, Post, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { transformAndValidate } from 'class-transformer-validator';
+import { IsDefined, IsInt, IsString } from 'class-validator';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { EntityManager, Equal } from 'typeorm';
+import { User } from '../entities/user.entity';
+import * as bcrypt from 'bcrypt';
+import { CommandResponse } from 'src/cqm/lib/command-response';
+import { JWT_SECRET } from 'src/common/constants';
+import * as jwt from 'jsonwebtoken';
+import { JWTPayload } from '../dtos/jwt-payload.dto';
+import { CommandError } from 'src/cqm/lib/command-error';
+
+const topic = "user.login"
+const logger = giveMeClassLogger(topic);
+
+export class UserLoginCommandDTO {
+    @ApiProperty()
+    @IsDefined()
+    @IsString()
+    email: string;
+
+    @ApiProperty()
+    @IsDefined()
+    @IsString()
+    password: string;
+}
+
+@ApiTags('umm')
+@ApiBearerAuth()
+@Controller('api/umm/commands')
+export class UserLoginCommand {
+    constructor(
+        @InjectEntityManager() private readonly manager: EntityManager
+    ) { }
+
+    async execute(dto: UserLoginCommandDTO): Promise<any> {
+        logger.debug(`command execution started`)
+        logger.silly(`command dto`, dto)
+        dto = await transformAndValidate(UserLoginCommandDTO, dto);
+
+        // check user exists
+        const user = await this.manager.findOne(User, {
+            where: { email: Equal(dto.email) }
+        })
+        
+        if (!user) {
+            throw new CommandError('Email or password is wrong', 'WRONG_EMAIL_PASSWORD');
+        }
+
+        // get password from system
+        const [{password}] = await this.manager.query('SELECT password FROM `um_user` WHERE id = ?', [user.id]);
+        
+        // check password is correct
+        const isPasswordMatching = await bcrypt.compare(dto.password, password);
+        if (!isPasswordMatching) {
+            throw new CommandError('Wrong password', 'WRONG_PASSWORD');
+        }
+        
+        // create JWT token
+        const jwtPayload: JWTPayload = { 
+            displayName: user.displayName,
+            username: user.username,
+            email: user.email,
+            userId: user.id,
+            userType: 'USER', 
+        };
+
+        const jwtToken = jwt.sign(jwtPayload, JWT_SECRET);
+
+        return CommandResponse.success('User logged in successfully', 'SUCCESS', {
+            user: user,
+            token: jwtToken
+        });
+    }
+
+    @Post(topic)
+    async httpHandler(@Body() body: UserLoginCommandDTO): Promise<any> {
+        return this.execute(body)
+    }
+}

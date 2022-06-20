@@ -1,0 +1,40 @@
+import { Body, Controller, Get, HttpException, Inject, Post, Query, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { transformAndValidate } from 'class-transformer-validator';
+import { IsDefined } from 'class-validator';
+import { JWTGuard } from 'src/authentication/guards/jwt.guard';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { EntityManager } from 'typeorm';
+import { MODULE_NAME } from '../constants';
+
+const topic = "{{topic}}"
+const logger = giveMeClassLogger(topic);
+
+export class {{ properCase topic}}QueryDTO {
+    @IsDefined()
+    userId: number;
+}
+
+@ApiTags(MODULE_NAME)
+@ApiBearerAuth()
+@UseGuards(JWTGuard)
+@Controller(`api/${MODULE_NAME}/queries`)
+export class {{ properCase topic}}Query {
+    constructor(
+        @InjectEntityManager() private readonly manager: EntityManager
+    ) { }
+
+    async execute(dto: {{ properCase topic}}QueryDTO): Promise<any> {
+        logger.debug(`query execution started`)
+        logger.silly(`query dto`, dto)
+        dto = await transformAndValidate({{ properCase topic}}QueryDTO, dto)
+        throw new Error('Query Not Implemented')
+        logger.debug(`query execution completed`)
+    }
+
+    @Post(topic)
+    async httpHandler(@Body() body: {{ properCase topic}}QueryDTO): Promise<any> {
+        return this.execute(body)
+    }
+}

@@ -1,0 +1,195 @@
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveBatch
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODkzNTMxNSwiZXhwIjoxNjA5MDIxNzE1fQ.vqocIuJOpX0xDW0Ki_AuDx-kXvEasGj3sAI4ztVHw34
+
+[
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة المنارة",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية الخرطوم",
+            "address": "شارع محمد نجيب",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة السوق المحلي",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية جبل اولياء",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة البحيرة السلمة",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية جبل اولياء",
+            "address": "شارع السلمة",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة الغابة",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية الخرطوم",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    }
+]
+
+###
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveBatch
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODkzNTMxNSwiZXhwIjoxNjA5MDIxNzE1fQ.vqocIuJOpX0xDW0Ki_AuDx-kXvEasGj3sAI4ztVHw34
+
+[
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة الاشارة",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية بحري",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة الانقاذ",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية بحري",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة الوادي",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية بحري",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة بحري الصناعية",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية بحري",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    }
+]
+###
+POST http://127.0.0.1:3000/api/eventStore/commands/aggregate.saveBatch
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODkzNTMxNSwiZXhwIjoxNjA5MDIxNzE1fQ.vqocIuJOpX0xDW0Ki_AuDx-kXvEasGj3sAI4ztVHw34
+
+[
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة  سلاح الموسيقي",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية امدرمان",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة الواحة",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية امدرمان",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة الشنقيطي",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية امدرمان",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة الخيرات",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية امدرمان",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة امبدة كرور",
+            "state": "ولاية الخرطوم",
+            "locality": "محلية امدرمان",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    },
+    {
+        "aggregateType": "station",
+        "state": {
+            "stationName": "محطة سنار",
+            "state": "ولاية سنار",
+            "locality": "محلية سنار",
+            "address": "",
+            "managerName": "محمد محمد",
+            "managerContactNo": "0917273645"
+        }
+    }
+]
+
+###
+POST http://127.0.0.1:3000/api/eventStore/queries/aggregate.findAll
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODkzNTMxNSwiZXhwIjoxNjA5MDIxNzE1fQ.vqocIuJOpX0xDW0Ki_AuDx-kXvEasGj3sAI4ztVHw34
+
+{
+    "aggregateType": "station"
+}
+
+
+
+###
+POST http://127.0.0.1:3000/api/eventStore/queries/aggregate.findOne
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibW9iaWxlTnVtYmVyIjoiMDkxMjM0MTIzNCIsImRpc3BsYXlOYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTYwODkzNTMxNSwiZXhwIjoxNjA5MDIxNzE1fQ.vqocIuJOpX0xDW0Ki_AuDx-kXvEasGj3sAI4ztVHw34
+
+{
+    "id" : "b97456ed-6771-4d28-9f05-92051749ac58"
+}

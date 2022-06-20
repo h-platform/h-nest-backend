@@ -1,0 +1,24 @@
+import { Controller } from '@nestjs/common';
+import { HandleFailureOptions,Task,TaskService,Variables } from 'camunda-external-task-client-js';
+import { validateOrReject } from 'class-validator';
+import { giveMeClassLogger } from 'src/common/winston.logger';
+import { Subscription } from 'nestjs-cambpm';
+import { Ctx, Payload } from '@nestjs/microservices';
+
+const topic = "{{topic}}"
+const logger = giveMeClassLogger(topic);
+
+@Controller()
+export class {{ properCase topic}}Worker {
+    constructor(
+    ) { }
+
+    @Subscription(topic)
+    async handleTask(@Payload() task: Task, @Ctx() taskService: TaskService,
+    ) {
+        logger.debug(`camunda task started`)
+        const variables: any = task.variables.getAll();
+        await taskService.complete(task);
+        logger.debug(`camunda task completed`)
+    }
+}

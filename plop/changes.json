@@ -1,0 +1,57 @@
+{
+    "version": "0.0.13",
+    "changes": [
+        {
+            "version": "0.0.13",
+            "changelog": "- fix command and query template - UseGuards import"
+        },
+        {
+            "version": "0.0.12",
+            "changelog": "- fix query template"
+        },
+        {
+            "version": "0.0.11",
+            "changelog": "- add entity manager and user id in dto"
+        },
+        {
+            "version": "0.0.10",
+            "changelog": "- use swagger decorators on controllers and use module_name fron contants"
+        },
+        {
+            "version": "0.0.9",
+            "changelog": "- finalize findQuery and findAll query"
+        },
+        {
+            "version": "0.0.8",
+            "changelog": "- saveCommand and findQuery and findAll query"
+        },
+        {
+            "version": "0.0.7",
+            "changelog": "- CommandDTO and QueryDTO uses proper case topic name"
+        },
+        {
+            "version": "0.0.6",
+            "changelog": "- use transformAndValidate for class validation"
+        },
+        {
+            "version": "0.0.5",
+            "changelog": "- make routes pathes under /api"
+        },
+        {
+            "version": "0.0.4",
+            "changelog": "- remove empty line \n - Fix command index rows"
+        },
+        {
+            "version": "0.0.3",
+            "changelog": "- make validation template await"
+        },
+        {
+            "version": "0.0.2",
+            "changelog": "- seperate commands / query / workers into folders "
+        },
+        {
+            "version": "0.0.1",
+            "changelog": "- seperate commands / query / workers into folders "
+        }
+    ]
+}
