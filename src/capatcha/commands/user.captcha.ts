@@ -4,7 +4,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { transformAndValidate } from 'class-transformer-validator';
 import { IsDefined } from 'class-validator';
 import { giveMeClassLogger } from 'src/common/winston.logger';
-import { CommandResponse } from 'src/cqm/lib/command-response';
+import { CommandResponse } from '@h-platform/cqm';
 import { Response } from 'express';
 var svgCaptcha = require('svg-captcha');
 

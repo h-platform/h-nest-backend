@@ -1,5 +1,4 @@
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { QueryInterface } from 'src/cqm/interfaces/query.interface';
 import { MoreThan, EntityManager, In } from 'typeorm';
 import { IsEmpty, IsDefined, IsOptional, IsNotEmpty } from 'class-validator';
 import { transformAndValidate } from 'class-transformer-validator';
@@ -19,7 +18,7 @@ export class QueryDTO {
     pipeline: any;
 }
 
-export class AggregateFindOneQuery implements QueryInterface {
+export class AggregateFindOneQuery {
     endpoint = 'aggregate.findOne';
 
     constructor(

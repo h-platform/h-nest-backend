@@ -6,17 +6,17 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { CommandError } from '../lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
-        let commandError: CommandError;
+        let commandError: CommandError<any>;
 
         if (exception instanceof CommandError) {
-            commandError = exception as CommandError;
+            commandError = exception as CommandError<any>;
         } else if (exception instanceof HttpException) {
             const httpException = exception as HttpException;
             const response = httpException.getResponse();
@@ -27,7 +27,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         } else if ((exception as any).message) {
             commandError = new CommandError((exception as any).message, 'ERROR', exception);
         } else {
-            commandError = new CommandError('هناك خطأ ما ،،،!', 'UNSPECIFIED_ERROR');
+            commandError = new CommandError('Unkown error occured ،،،!', 'UNSPECIFIED_ERROR');
         }
 
         response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

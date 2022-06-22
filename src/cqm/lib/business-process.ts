@@ -1,4 +1,4 @@
-import { CommandError } from "src/cqm/lib/command-error";
+import { CommandError } from "@h-platform/cqm";
 
 export enum TaskType {
     UserTask = 'UserTask',
@@ -15,7 +15,7 @@ export class BusinessProcess {
     ) { }
 
     start() {
-        this.currentTasks = this.availableTasks.filter(t => this.inititalTasks.includes(t.taskName)).map(t => t.taskName);
+        this.currentTasks = [...this.inititalTasks];
     }
 
     complete(taskName: string) {

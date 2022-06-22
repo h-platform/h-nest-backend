@@ -1,11 +1,10 @@
-import { QueryInterface } from 'src/cqm/interfaces/query.interface';
 import { EntityManager, MoreThan } from 'typeorm';
 import { IsEmpty, IsDefined, IsOptional, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 import { transformAndValidate } from 'class-transformer-validator';
 import { UnboundEventStream } from '../entities/unbound-event-stream.entity';
 import { UnboundEvent } from '../entities/unbound-event.entity';
-import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 
 export class QueryDTO {
@@ -18,7 +17,7 @@ export class QueryDTO {
     limit: number;
 }
 
-export class EventStoreFindNextUnboundEventQuery implements QueryInterface {
+export class EventStoreFindNextUnboundEventQuery {
     endpoint = 'eventStore.findNextUnboundEvent';
 
     constructor(

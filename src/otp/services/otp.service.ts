@@ -4,7 +4,7 @@ import { EntityManager, Equal } from "typeorm";
 import { OTP } from "../entities/otp.entity";
 import * as uuid from 'uuid';
 import * as _ from 'lodash';
-import { CommandError } from "src/cqm/lib/command-error";
+import { CommandError } from "@h-platform/cqm";
 import { InjectQueue } from "@nestjs/bull";
 import { Queue } from "bull";
 

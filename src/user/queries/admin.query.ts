@@ -4,7 +4,7 @@ import { IsDefined, IsInt, IsOptional, IsString } from 'class-validator';
 import { giveMeClassLogger } from 'src/common/winston.logger';
 import { join } from 'path';
 import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 import { JWTGuard } from 'src/authentication/guards/jwt.guard';
 
 const mysql = require("mysql2")

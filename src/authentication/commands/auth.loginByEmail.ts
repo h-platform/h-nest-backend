@@ -4,12 +4,12 @@ import { transformAndValidate } from 'class-transformer-validator';
 import { IsDefined, IsInt, IsString, Matches } from 'class-validator';
 import { giveMeClassLogger } from 'src/common/winston.logger';
 import { EntityManager, Equal } from 'typeorm';
-import { CommandResponse } from 'src/cqm/lib/command-response';
+import { CommandResponse } from '@h-platform/cqm';
 import { JWTPayload } from '../interfaces/jwt-payload.dto';
 import { User } from 'src/user/entities/user.entity';
 import { JWT_SECRET, SERVICE_NAME } from 'src/constants';
 import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 import * as bcrypt from 'bcryptjs';
 
 var jwt = require('jsonwebtoken');

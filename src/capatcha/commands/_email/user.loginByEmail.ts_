@@ -7,11 +7,11 @@ import { giveMeClassLogger } from 'src/common/winston.logger';
 import { EntityManager, Equal } from 'typeorm';
 import { User } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { CommandResponse } from 'src/cqm/lib/command-response';
+import { CommandResponse } from '@h-platform/cqm';
 import { JWT_SECRET } from 'src/common/constants';
 import * as jwt from 'jsonwebtoken';
 import { JWTPayload } from '../dtos/jwt-payload.dto';
-import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 
 const topic = "user.login"
 const logger = giveMeClassLogger(topic);

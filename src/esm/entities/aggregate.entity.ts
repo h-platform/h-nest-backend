@@ -1,4 +1,4 @@
-import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 import { Column, CreateDateColumn, Entity, EntityManager, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId, UpdateDateColumn, } from 'typeorm';
 import { AggregateType } from '../interfaces/aggregate-event.interface';
 import { AggregateEvent } from './aggregate-event.entity';

@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JWTPayload } from 'src/authentication/interfaces/jwt-payload.dto';
 import { verify } from 'jsonwebtoken';;
-import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 import { JWT_SECRET, SERVICE_NAME } from 'src/constants';
 
 @Injectable()

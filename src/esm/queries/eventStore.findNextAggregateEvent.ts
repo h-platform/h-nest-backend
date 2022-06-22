@@ -1,5 +1,4 @@
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { QueryInterface } from 'src/cqm/interfaces/query.interface';
 import { MoreThan, EntityManager } from 'typeorm';
 import { IsEmpty, IsDefined, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -17,7 +16,7 @@ export class QueryDTO {
     limit: number;
 }
 
-export class EventStoreFindNextAggregateEventQuery implements QueryInterface {
+export class EventStoreFindNextAggregateEventQuery {
     endpoint = 'eventStore.findNextAggregateEvent';
 
     constructor(

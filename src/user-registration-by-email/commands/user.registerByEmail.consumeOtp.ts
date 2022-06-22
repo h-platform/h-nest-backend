@@ -2,9 +2,9 @@ import { Body, Controller, Get, HttpException, HttpService, Inject, Post, Query 
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { transformAndValidate } from 'class-transformer-validator';
 import { giveMeClassLogger } from 'src/common/winston.logger';
-import { CommandError } from 'src/cqm/lib/command-error';
+import { CommandError } from '@h-platform/cqm';
 import { EntityManager, Equal } from 'typeorm';
-import { CommandResponse } from 'src/cqm/lib/command-response';
+import { CommandResponse } from '@h-platform/cqm';
 import { IsDefined } from 'class-validator';
 import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { UserRegisterByEmailSendOtpDTO } from './user.registerByEmail.sendOtp';

@@ -4,7 +4,7 @@ import { transformAndValidate } from 'class-transformer-validator';
 import { IsDefined, IsOptional } from 'class-validator';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { giveMeClassLogger } from 'src/common/winston.logger';
-import { CommandResponse } from 'src/cqm/lib/command-response';
+import { CommandResponse } from '@h-platform/cqm';
 import { EntityManager } from 'typeorm';
 import { Region } from '../entities/region.entity';
 
