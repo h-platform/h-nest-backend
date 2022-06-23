@@ -1,3 +1,3 @@
 module.exports = function (plop) {
-    plop.load('./plop/plopfile')
+    plop.load('@h-platform/plop')
 };
