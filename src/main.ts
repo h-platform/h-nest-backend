@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SERVICE_HOST, SERVICE_NAME, SERVICE_PORT, SERVICE_TITLE, SESSION_SECRET } from './constants';
-import { AllExceptionsFilter } from './cqm/filters/all-exceptions-filter';
+import { CQExceptionsFilter } from '@h-platform/cqm';
 import { giveMeClassLogger } from './common/winston.logger';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -16,7 +16,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe(
     { disableErrorMessages: false }
   ));
-  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalFilters(new CQExceptionsFilter());
 
   
   // swagger
