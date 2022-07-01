@@ -7,7 +7,7 @@ import { UnboundEvent } from '../entities/unbound-event.entity';
 import { CommandError } from '@h-platform/cqm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 
-export class QueryDTO {
+export class EventStoreFindNextUnboundEventQueryDTO {
     @IsDefined()
     @IsNotEmpty()
     streamName: string;
@@ -24,8 +24,8 @@ export class EventStoreFindNextUnboundEventQuery {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(payload: QueryDTO): Promise<UnboundEvent[]> {
-        payload = await transformAndValidate(QueryDTO, payload);
+    async execute(payload: EventStoreFindNextUnboundEventQueryDTO): Promise<UnboundEvent[]> {
+        payload = await transformAndValidate(EventStoreFindNextUnboundEventQueryDTO, payload);
         const stream = await this.manager.findOneOrFail(UnboundEventStream, {
             relations: ['lastEvent'],
             where: { streamName: payload.streamName }

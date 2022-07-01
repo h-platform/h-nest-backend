@@ -5,7 +5,7 @@ import { transformAndValidate } from 'class-transformer-validator';
 import { Aggregate } from '../entities/aggregate.entity';
 import { translateOne, translateMany } from '../lib/piplines';
 
-export class QueryDTO {
+export class AggregateFindByIdsQueryDTO {
     @IsDefined()
     ids: string[];
 
@@ -24,8 +24,8 @@ export class AggregateFindByIdsQuery {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(payload: QueryDTO): Promise<Aggregate[]> {
-        const dto = await transformAndValidate(QueryDTO, payload);
+    async execute(payload: AggregateFindByIdsQueryDTO): Promise<Aggregate[]> {
+        const dto = await transformAndValidate(AggregateFindByIdsQueryDTO, payload);
         if (dto.ids && Array.isArray(dto.ids) && dto.ids.length === 0) return [];
         const aggregates = await this.manager.find(Aggregate, { where: { id: In(dto.ids) } });
         if (dto.pipeline && dto.pipeline.length > 0) {

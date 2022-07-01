@@ -6,7 +6,7 @@ import { AggregateEvent } from '../entities/aggregate-event.entity';
 import { transformAndValidate } from 'class-transformer-validator';
 import { AggregateEventStream } from '../entities/aggregate-event-stream.entity';
 
-export class QueryDTO {
+export class EventStoreFindNextAggregateEventQueryDTO {
     @IsDefined()
     @IsEmpty()
     streamName: string;
@@ -23,8 +23,8 @@ export class EventStoreFindNextAggregateEventQuery {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(payload: QueryDTO): Promise<AggregateEvent[]> {
-        payload = await transformAndValidate(QueryDTO, payload);
+    async execute(payload: EventStoreFindNextAggregateEventQueryDTO): Promise<AggregateEvent[]> {
+        payload = await transformAndValidate(EventStoreFindNextAggregateEventQueryDTO, payload);
         const stream = await this.manager.findOneOrFail(AggregateEventStream, { 
             relations: ['lastEvent'],
             where: { streamName: payload.streamName }

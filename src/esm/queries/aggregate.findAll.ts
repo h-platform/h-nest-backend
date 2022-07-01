@@ -6,7 +6,7 @@ import { Aggregate } from '../entities/aggregate.entity';
 import { translateOne, translateMany } from '../lib/piplines';
 import { AggregateType } from '../interfaces/aggregate-event.interface';
 
-export class QueryDTO {
+export class AggregateFindAllQueryDTO {
     @IsDefined()
     @IsNotEmpty()
     aggregateType: AggregateType;
@@ -22,8 +22,8 @@ export class AggregateFindAllQuery {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(payload: QueryDTO): Promise<Aggregate[]> {
-        const dto = await transformAndValidate(QueryDTO, payload);
+    async execute(payload: AggregateFindAllQueryDTO): Promise<Aggregate[]> {
+        const dto = await transformAndValidate(AggregateFindAllQueryDTO, payload);
         const aggregates = await this.manager.find(Aggregate, { where: { aggregateType: dto.aggregateType } });
         if (dto.pipeline && dto.pipeline.length > 0) {
             for (const step of dto.pipeline) {

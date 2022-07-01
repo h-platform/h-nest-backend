@@ -5,7 +5,7 @@ import { transformAndValidate } from 'class-transformer-validator';
 import { Aggregate } from '../entities/aggregate.entity';
 import { translateOne, translateMany } from '../lib/piplines';
 
-export class QueryDTO {
+export class AggregateFindOneQueryDTO {
     @IsDefined()
     @IsNotEmpty()
     id: string;
@@ -25,8 +25,8 @@ export class AggregateFindOneQuery {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(payload: QueryDTO): Promise<Aggregate> {
-        const dto = await transformAndValidate(QueryDTO, payload);
+    async execute(payload: AggregateFindOneQueryDTO): Promise<Aggregate> {
+        const dto = await transformAndValidate(AggregateFindOneQueryDTO, payload);
         const aggregate = await this.manager.findOneOrFail(Aggregate, { where: { id: dto.id } });
         if (dto.pipeline && dto.pipeline.length > 0) {
             for (const step of dto.pipeline) {
