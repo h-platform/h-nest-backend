@@ -14,7 +14,7 @@ import * as bcrypt from 'bcryptjs';
 const topic = "user.registerByMobileNo.sendOtp"
 const logger = giveMeClassLogger(topic);
 
-export class UserRegisterByMobileNoSendOtpDTO {
+export class UserRegisterByMobileNoSendOtpCommandDTO {
     @ApiProperty()
     @IsDefined()
     @IsString()
@@ -51,10 +51,10 @@ export class UserRegisterByMobileNoSendOtpCommand {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(dto: UserRegisterByMobileNoSendOtpDTO): Promise<any> {
+    async execute(dto: UserRegisterByMobileNoSendOtpCommandDTO): Promise<any> {
         logger.debug(`command execution started`)
         logger.silly(`command dto`, dto)
-        dto = await transformAndValidate(UserRegisterByMobileNoSendOtpDTO, dto)
+        dto = await transformAndValidate(UserRegisterByMobileNoSendOtpCommandDTO, dto)
 
         if (dto.password != dto.password2) {
             throw new CommandError('Passwords do not match', 'ERR_PASSWORDS_NO_MATCH')
@@ -79,7 +79,7 @@ export class UserRegisterByMobileNoSendOtpCommand {
     }
 
     @Post(topic)
-    async httpHandler(@Body() body: UserRegisterByMobileNoSendOtpDTO, @Session() session): Promise<any> {
+    async httpHandler(@Body() body: UserRegisterByMobileNoSendOtpCommandDTO, @Session() session): Promise<any> {
         const catpchaText = (session.captcha||{})['user-register'];
         if (body.captcha !== catpchaText) {
             throw new CommandError('رمز التحقق غير مطابق', 'WRONG_CAPTCHA_PURPOSE');

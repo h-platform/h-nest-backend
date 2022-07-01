@@ -70,7 +70,8 @@
     "twilio": "^3.74.0",
     "typeorm": "^0.3.6",
     "uuid": "^8.3.2",
-    "winston": "^3.7.2"
+    "winston": "^3.7.2",
+    "xregexp": "^5.1.1"
   },
   "devDependencies": {
     "@h-platform/plop": "^0.0.1",

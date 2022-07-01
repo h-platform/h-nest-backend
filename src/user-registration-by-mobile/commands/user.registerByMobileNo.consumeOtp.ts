@@ -7,7 +7,7 @@ import { EntityManager, Equal } from 'typeorm';
 import { CommandResponse } from '@h-platform/cqm';
 import { IsDefined } from 'class-validator';
 import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { UserRegisterByMobileNoSendOtpDTO } from './user.registerByMobileNo.sendOtp';
+import { UserRegisterByMobileNoSendOtpCommandDTO } from './user.registerByMobileNo.sendOtp';
 import { OtpService } from 'src/otp/services/otp.service';
 import { SmsService } from 'src/otp/services/sms.service';
 import { User } from 'src/user/entities/user.entity';
@@ -51,7 +51,7 @@ export class UserRegisterByMobileNoConsumeOtpCommand {
 
         // create new user
         const user = this.manager.create(User);
-        const payload = otp.actionPayload as UserRegisterByMobileNoSendOtpDTO;
+        const payload = otp.actionPayload as UserRegisterByMobileNoSendOtpCommandDTO;
         user.mobileNumber = payload.mobileNumber;
         user.isMobileNumberVerified = true;
         user.mobileVerifiedDate = new Date();

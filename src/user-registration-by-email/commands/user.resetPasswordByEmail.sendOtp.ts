@@ -16,7 +16,7 @@ import * as nodemailer from 'nodemailer';
 const topic = "user.resetPasswordByEmail.sendOtp"
 const logger = giveMeClassLogger(topic);
 
-export class UserResetPasswordByEmailSendOtpDTO {
+export class UserResetPasswordByEmailSendOtpCommandDTO {
     @ApiProperty()
     @IsDefined()
     @IsString()
@@ -31,10 +31,10 @@ export class UserResetPasswordByEmailSendOtpCommand {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(dto: UserResetPasswordByEmailSendOtpDTO): Promise<any> {
+    async execute(dto: UserResetPasswordByEmailSendOtpCommandDTO): Promise<any> {
         logger.debug(`command execution started`)
         logger.silly(`command dto`, dto)
-        dto = await transformAndValidate(UserResetPasswordByEmailSendOtpDTO, {})
+        dto = await transformAndValidate(UserResetPasswordByEmailSendOtpCommandDTO, {})
 
         // check google capatcha token
 
@@ -92,7 +92,7 @@ export class UserResetPasswordByEmailSendOtpCommand {
     }
 
     @Post(topic)
-    async httpHandler(@Body() body: UserResetPasswordByEmailSendOtpDTO): Promise<any> {
+    async httpHandler(@Body() body: UserResetPasswordByEmailSendOtpCommandDTO): Promise<any> {
         return this.execute(body)
     }
 }

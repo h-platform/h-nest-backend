@@ -17,7 +17,7 @@ import * as nodemailer from 'nodemailer';
 const topic = "user.registerByEmail.sendOtp"
 const logger = giveMeClassLogger(topic);
 
-export class UserRegisterByEmailSendOtpDTO {
+export class UserRegisterByEmailSendOtpCommandDTO {
     @ApiProperty()
     @IsDefined()
     @IsString()
@@ -59,10 +59,10 @@ export class UserRegisterByEmailSendOtpCommand {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(dto: UserRegisterByEmailSendOtpDTO): Promise<any> {
+    async execute(dto: UserRegisterByEmailSendOtpCommandDTO): Promise<any> {
         logger.debug(`command execution started`)
         logger.silly(`command dto`, dto)
-        dto = await transformAndValidate(UserRegisterByEmailSendOtpDTO, dto)
+        dto = await transformAndValidate(UserRegisterByEmailSendOtpCommandDTO, dto)
 
         if (dto.password != dto.password2) {
             throw new CommandError('Passwords do not match', 'ERR_PASSWORDS_NO_MATCH')
@@ -127,7 +127,7 @@ export class UserRegisterByEmailSendOtpCommand {
     }
 
     @Post(topic)
-    async httpHandler(@Body() body: UserRegisterByEmailSendOtpDTO, @Session() session): Promise<any> {
+    async httpHandler(@Body() body: UserRegisterByEmailSendOtpCommandDTO, @Session() session): Promise<any> {
         const catpchaText = (session.captcha || {})['user-register-email'];
         logger.info(`comparing body capatcha ${body.captcha} with session ${catpchaText}`, { sessionCaptcha: session.captcha });
         if (body.captcha !== catpchaText) {

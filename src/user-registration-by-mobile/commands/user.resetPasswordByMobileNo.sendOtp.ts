@@ -12,7 +12,7 @@ import { EntityManager, Equal } from 'typeorm';
 const topic = "user.resetPasswordByMobileNo.sendOtp"
 const logger = giveMeClassLogger(topic);
 
-export class UserResetPasswordByMobileNoSendOtpDTO {
+export class UserResetPasswordByMobileNoSendOtpCommandDTO {
     @ApiProperty()
     @IsDefined()
     @IsString()
@@ -34,10 +34,10 @@ export class UserResetPasswordByMobileNoSendOtpCommand {
         @InjectEntityManager() private readonly manager: EntityManager,
     ) { }
 
-    async execute(dto: UserResetPasswordByMobileNoSendOtpDTO): Promise<any> {
+    async execute(dto: UserResetPasswordByMobileNoSendOtpCommandDTO): Promise<any> {
         logger.debug(`command execution started`)
         logger.silly(`command dto`, dto)
-        dto = await transformAndValidate(UserResetPasswordByMobileNoSendOtpDTO, dto)
+        dto = await transformAndValidate(UserResetPasswordByMobileNoSendOtpCommandDTO, dto)
 
         // check google capatcha token
 
@@ -54,7 +54,7 @@ export class UserResetPasswordByMobileNoSendOtpCommand {
     }
 
     @Post(topic)
-    async httpHandler(@Body() body: UserResetPasswordByMobileNoSendOtpDTO, @Session() session): Promise<any> {
+    async httpHandler(@Body() body: UserResetPasswordByMobileNoSendOtpCommandDTO, @Session() session): Promise<any> {
         const catpchaText = (session.captcha||{})['reset-password'];
         if (body.captcha !== catpchaText) {
             throw new CommandError('رمز التحقق غير مطابق', 'WRONG_CAPTCHA_PURPOSE');
