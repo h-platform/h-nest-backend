@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SERVICE_HOST, SERVICE_NAME, SERVICE_PORT, SERVICE_TITLE, SESSION_SECRET } from './constants';
 import { CQExceptionsFilter } from '@h-platform/cqm';
@@ -6,6 +6,7 @@ import { giveMeClassLogger } from './common/winston.logger';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
+import { AnyRoleGuard, EveryRoleGuard } from './authentication/guards/role.guard';
 
 const logger = giveMeClassLogger('main')
 
@@ -17,7 +18,13 @@ async function bootstrap() {
     { disableErrorMessages: false }
   ));
   app.useGlobalFilters(new CQExceptionsFilter());
-
+  
+  // define guards
+  const reflector = new Reflector();
+  app.useGlobalGuards(
+    new AnyRoleGuard(reflector),
+    new EveryRoleGuard(reflector)
+  );
   
   // swagger
   const config = new DocumentBuilder()
