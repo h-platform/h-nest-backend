@@ -1,4 +1,5 @@
-export const SERVICE_VERSION: string = '0.0.1';
+import { VERSION } from './common/version';
+export const SERVICE_VERSION: string = VERSION;
 export const SERVICE_NAME = 'h-backend';
 export const SERVICE_PORT = process.env.NODE_PORT || 3000;
 export const SERVICE_HOST = process.env.NODE_HOST || '0.0.0.0';

@@ -7,9 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "plop": "plop --plopfile ./plop/plopfile.js --dest .",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist && node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/common/version.ts",
     "build": "nest build",
-    "prebuildd": "rimraf dist",
+    "prebuildd": "rimraf dist && node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/common/version.ts",
     "buildd": "nest build",
     "postbuildd": "pm2 restart h-backend && pm2 log h-backend",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

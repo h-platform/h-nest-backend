@@ -41,9 +41,6 @@ export class UnboundEventService {
         logger.info('flushing events from redis to db', { slots: oldTimeSlots.length });
         for (const slot of oldTimeSlots) {
             const events = await this.getTimeSlotEvents(slot);
-            events.forEach((e) => {
-                e.createdAt = new Date(e.createdAt);
-            })
             await this.manager.createQueryBuilder()
                 .insert()
                 .into('es_unbound_event', [
@@ -69,7 +66,7 @@ export class UnboundEventService {
     }
 
     async getAllTimeSlots(): Promise<string[]> {
-        return this.redisClient.keys(`${esmRedisKey}::*`);
+        return (await this.redisClient.keys(`${process.env.REDIS_PRIFIX||''}${esmRedisKey}::*`)).map(k => k.replace(`${process.env.REDIS_PRIFIX||''}`,''));
     }
 
     async getOldTimeSlots() {

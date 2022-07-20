@@ -1,6 +1,6 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SERVICE_HOST, SERVICE_NAME, SERVICE_PORT, SERVICE_TITLE, SESSION_SECRET } from './constants';
+import { SERVICE_HOST, SERVICE_NAME, SERVICE_PORT, SERVICE_TITLE, SERVICE_VERSION, SESSION_SECRET } from './constants';
 import { CQExceptionsFilter } from '@h-platform/cqm';
 import { giveMeClassLogger } from './common/winston.logger';
 import { ValidationPipe } from '@nestjs/common';
@@ -18,19 +18,19 @@ async function bootstrap() {
     { disableErrorMessages: false }
   ));
   app.useGlobalFilters(new CQExceptionsFilter());
-  
+
   // define guards
   const reflector = new Reflector();
   app.useGlobalGuards(
     new AnyRoleGuard(reflector),
     new EveryRoleGuard(reflector)
   );
-  
+
   // swagger
   const config = new DocumentBuilder()
     .setTitle(SERVICE_NAME)
     .setDescription(SERVICE_TITLE)
-    .setVersion('0.1')
+    .setVersion(SERVICE_VERSION)
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
@@ -42,6 +42,6 @@ async function bootstrap() {
   // somewhere in your initialization file
   app.use(compression());
 
-  logger.info(`${SERVICE_NAME} started on port ${SERVICE_PORT}`);
+  logger.info(`service: ${SERVICE_NAME} started on port: ${SERVICE_PORT} environment: ${process.env.NODE_ENV} version: ${SERVICE_VERSION}`);
 }
 bootstrap();
